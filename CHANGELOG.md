@@ -8,9 +8,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
+- Chapter 5: Backpropagation implementation
 - Parameter sliders for interactive examples
 - Progress tracking system
 - Enhanced error handling and user feedback
+
+## [0.5.0] - 2025-01-06
+
+### Added
+- **Chapter 4: Multi-layer Networks** - Complete implementation
+  - Comprehensive multi-layer network class with adjustable architecture
+  - Forward propagation with detailed layer-by-layer computation logging
+  - Interactive network architecture experimentation (width vs depth)
+  - Network diagram visualization showing neuron connections and layer structure
+  - Data flow visualization through all network layers
+  - XOR problem solution demonstration using multi-layer approach
+  - Parameter counting and network complexity analysis
+  - Three comprehensive examples: XOR solving, architecture comparison, and data flow visualization
+- Educational content covering Universal Approximation Theorem
+- Real-world analogies (restaurant kitchen) for understanding layer processing
+- Interactive architecture design principles and guidelines
+
+### Changed
+- Updated project status to reflect Chapter 4 completion (4/6 chapters now complete - 67% content creation)
+- Enhanced educational progression from perceptron limitations to multi-layer solutions
+- Improved code examples with comprehensive commenting and step-by-step explanations
+
+### Technical
+- Implemented complete MultiLayerNetwork class with configurable layer sizes and activation functions
+- Added Xavier/Glorot weight initialization for better training stability
+- Created comprehensive network architecture visualization with matplotlib
+- Enhanced data flow tracking and visualization throughout forward propagation
+- Added parameter counting and network complexity analysis features
 
 ## [0.4.0] - 2025-01-06
 
@@ -138,6 +167,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Release Notes
 
+### Version 0.5.0 Highlights
+🚀 **Multi-layer Networks Unleashed!** Chapter 4 breaks through the perceptron's limitations with multi-layer networks that can solve ANY pattern! Experience forward propagation step-by-step, design custom network architectures, and finally solve the XOR problem. Complete with network diagrams and data flow visualizations.
+
 ### Version 0.4.0 Highlights
 🧠 **The Perceptron Arrives!** Chapter 3 introduces the first neural network that can actually learn from data! Watch the perceptron train in real-time, see decision boundaries evolve, and understand why this 1957 breakthrough sparked both AI excitement and the first AI Winter. Complete with XOR demonstration showing the perceptron's fundamental limitation.
 
@@ -156,6 +188,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Chapters Complete | Key Features | Lines of Code |
 |---------|------------------|--------------|---------------|
+| 0.5.0   | 4/6 (67%)       | Multi-layer Networks + Forward Propagation | ~7,000+ |
 | 0.4.0   | 3/6 (50%)       | The Perceptron + Learning Algorithm | ~5,500+ |
 | 0.3.0   | 2/6 (33%)       | Activation Functions | ~4,500+ |
 | 0.2.0   | 1/6 (17%)       | Resizable Layout + Fullscreen | ~3,000+ |
