@@ -453,7 +453,317 @@ print("That's what we'll explore in Chapter 4! 🚀")`
       description: 'Forward propagation through layers',
       component: Chapter4,
       defaultCode: `# Chapter 4: Multi-layer Networks
-print("Multi-layer networks tutorial - coming soon!")`
+# Forward propagation through layers
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+class MultiLayerNetwork:
+    """
+    A multi-layer neural network for forward propagation
+    Demonstrates layer-by-layer computation and adjustable architecture
+    """
+    
+    def __init__(self, layer_sizes, activation='relu'):
+        """
+        Initialize network with specified architecture
+        
+        Args:
+            layer_sizes: List of integers [input_size, hidden1_size, hidden2_size, ..., output_size]
+            activation: Activation function ('relu', 'sigmoid', 'tanh')
+        """
+        self.layer_sizes = layer_sizes
+        self.num_layers = len(layer_sizes)
+        self.activation_name = activation
+        
+        # Initialize weights and biases for each layer
+        self.weights = []
+        self.biases = []
+        
+        print(f"Initializing {self.num_layers}-layer network: {layer_sizes}")
+        print(f"Activation function: {activation.upper()}")
+        
+        # Initialize parameters for each layer
+        for i in range(len(layer_sizes) - 1):
+            # Xavier/Glorot initialization for better training
+            weight_matrix = np.random.randn(layer_sizes[i], layer_sizes[i+1]) * np.sqrt(2.0 / layer_sizes[i])
+            bias_vector = np.zeros((1, layer_sizes[i+1]))
+            
+            self.weights.append(weight_matrix)
+            self.biases.append(bias_vector)
+            
+            print(f"Layer {i+1}: {layer_sizes[i]} → {layer_sizes[i+1]} (weights: {weight_matrix.shape})")
+    
+    def relu(self, x):
+        """ReLU activation function"""
+        return np.maximum(0, x)
+    
+    def sigmoid(self, x):
+        """Sigmoid activation function"""
+        return 1 / (1 + np.exp(-np.clip(x, -500, 500)))  # Clip to prevent overflow
+    
+    def tanh(self, x):
+        """Tanh activation function"""
+        return np.tanh(x)
+    
+    def get_activation_function(self):
+        """Get the activation function based on name"""
+        if self.activation_name == 'relu':
+            return self.relu
+        elif self.activation_name == 'sigmoid':
+            return self.sigmoid
+        elif self.activation_name == 'tanh':
+            return self.tanh
+        else:
+            raise ValueError(f"Unknown activation function: {self.activation_name}")
+    
+    def forward_propagation(self, X, verbose=True):
+        """
+        Perform forward propagation through all layers
+        
+        Args:
+            X: Input data (batch_size, input_features)
+            verbose: Print layer-by-layer computation details
+            
+        Returns:
+            output: Final network output
+            activations: List of activations for each layer (for visualization)
+        """
+        if verbose:
+            print("\\n" + "="*50)
+            print("FORWARD PROPAGATION - LAYER BY LAYER")
+            print("="*50)
+        
+        activation_func = self.get_activation_function()
+        activations = [X]  # Store activations for each layer
+        current_input = X
+        
+        if verbose:
+            print(f"Input shape: {X.shape}")
+            print(f"Input values: {X.flatten()[:5]}..." if X.size > 5 else f"Input values: {X.flatten()}")
+        
+        # Forward propagation through each layer
+        for layer_idx in range(len(self.weights)):
+            if verbose:
+                print(f"\\n--- Layer {layer_idx + 1} ---")
+                print(f"Input shape: {current_input.shape}")
+                print(f"Weight matrix shape: {self.weights[layer_idx].shape}")
+                print(f"Bias shape: {self.biases[layer_idx].shape}")
+            
+            # Linear transformation: z = W*x + b
+            linear_output = np.dot(current_input, self.weights[layer_idx]) + self.biases[layer_idx]
+            
+            if verbose:
+                print(f"Linear output (before activation): {linear_output.flatten()[:3]}..." if linear_output.size > 3 else f"Linear output: {linear_output.flatten()}")
+            
+            # Apply activation function (except for output layer in some cases)
+            if layer_idx == len(self.weights) - 1:
+                # For output layer, you might want different activation
+                # For now, we'll apply the same activation
+                activated_output = activation_func(linear_output)
+            else:
+                activated_output = activation_func(linear_output)
+            
+            if verbose:
+                print(f"After {self.activation_name} activation: {activated_output.flatten()[:3]}..." if activated_output.size > 3 else f"After activation: {activated_output.flatten()}")
+            
+            activations.append(activated_output)
+            current_input = activated_output
+        
+        if verbose:
+            print(f"\\nFinal output shape: {current_input.shape}")
+            print(f"Final output: {current_input.flatten()}")
+        
+        return current_input, activations
+    
+    def visualize_network_architecture(self):
+        """Create a visualization of the network architecture"""
+        fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(15, 6))
+        
+        # Plot 1: Network Architecture Diagram
+        ax1.set_title('Network Architecture', fontsize=14, fontweight='bold')
+        
+        # Calculate positions for neurons
+        max_neurons = max(self.layer_sizes)
+        layer_positions = np.linspace(0, len(self.layer_sizes)-1, len(self.layer_sizes))
+        
+        colors = ['lightblue', 'lightgreen', 'lightcoral', 'lightyellow', 'lightpink']
+        
+        for layer_idx, layer_size in enumerate(self.layer_sizes):
+            # Calculate neuron positions for this layer
+            if layer_size == 1:
+                neuron_positions = [max_neurons / 2]
+            else:
+                neuron_positions = np.linspace(0, max_neurons, layer_size)
+            
+            # Draw neurons
+            for neuron_pos in neuron_positions:
+                circle = plt.Circle((layer_positions[layer_idx], neuron_pos), 0.15, 
+                                  color=colors[layer_idx % len(colors)], 
+                                  ec='black', linewidth=1)
+                ax1.add_patch(circle)
+            
+            # Add layer labels
+            if layer_idx == 0:
+                label = f'Input\\n({layer_size})'
+            elif layer_idx == len(self.layer_sizes) - 1:
+                label = f'Output\\n({layer_size})'
+            else:
+                label = f'Hidden {layer_idx}\\n({layer_size})'
+            
+            ax1.text(layer_positions[layer_idx], -0.8, label, 
+                    ha='center', va='center', fontweight='bold')
+        
+        # Draw connections between layers
+        for layer_idx in range(len(self.layer_sizes) - 1):
+            current_size = self.layer_sizes[layer_idx]
+            next_size = self.layer_sizes[layer_idx + 1]
+            
+            # Calculate positions
+            if current_size == 1:
+                current_positions = [max_neurons / 2]
+            else:
+                current_positions = np.linspace(0, max_neurons, current_size)
+                
+            if next_size == 1:
+                next_positions = [max_neurons / 2]
+            else:
+                next_positions = np.linspace(0, max_neurons, next_size)
+            
+            # Draw connections (sample a few to avoid clutter)
+            for i, curr_pos in enumerate(current_positions):
+                for j, next_pos in enumerate(next_positions):
+                    if len(current_positions) * len(next_positions) <= 20:  # Only draw if not too many
+                        ax1.plot([layer_positions[layer_idx], layer_positions[layer_idx + 1]], 
+                                [curr_pos, next_pos], 'k-', alpha=0.3, linewidth=0.5)
+        
+        ax1.set_xlim(-0.5, len(self.layer_sizes) - 0.5)
+        ax1.set_ylim(-1.5, max_neurons + 0.5)
+        ax1.set_aspect('equal')
+        ax1.axis('off')
+        
+        # Plot 2: Layer Information
+        ax2.set_title('Layer Details', fontsize=14, fontweight='bold')
+        
+        layer_info = []
+        param_counts = []
+        
+        for i in range(len(self.layer_sizes)):
+            if i == 0:
+                layer_info.append(f'Input: {self.layer_sizes[i]} features')
+                param_counts.append(0)
+            elif i == len(self.layer_sizes) - 1:
+                layer_info.append(f'Output: {self.layer_sizes[i]} neurons')
+                params = self.layer_sizes[i-1] * self.layer_sizes[i] + self.layer_sizes[i]
+                param_counts.append(params)
+            else:
+                layer_info.append(f'Hidden {i}: {self.layer_sizes[i]} neurons')
+                params = self.layer_sizes[i-1] * self.layer_sizes[i] + self.layer_sizes[i]
+                param_counts.append(params)
+        
+        # Create bar chart of parameters per layer
+        bars = ax2.bar(range(len(layer_info)), param_counts, 
+                      color=['lightblue', 'lightgreen', 'lightcoral', 'lightyellow'][:len(layer_info)])
+        
+        ax2.set_xlabel('Layer')
+        ax2.set_ylabel('Number of Parameters')
+        ax2.set_xticks(range(len(layer_info)))
+        ax2.set_xticklabels([f'Layer {i}' for i in range(len(layer_info))], rotation=45)
+        
+        # Add value labels on bars
+        for bar, count in zip(bars, param_counts):
+            if count > 0:
+                ax2.text(bar.get_x() + bar.get_width()/2, bar.get_height() + max(param_counts)*0.01,
+                        str(count), ha='center', va='bottom')
+        
+        total_params = sum(param_counts)
+        ax2.text(0.5, 0.95, f'Total Parameters: {total_params}', 
+                transform=ax2.transAxes, ha='center', va='top', 
+                bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.8))
+        
+        plt.tight_layout()
+        plt.show()
+
+# Example 1: Simple 3-layer network for XOR problem
+print("Example 1: Solving XOR with Multi-layer Network")
+print("=" * 50)
+
+# Create a network: 2 inputs → 4 hidden → 1 output
+network = MultiLayerNetwork([2, 4, 1], activation='relu')
+
+# XOR dataset
+X_xor = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+print(f"\\nXOR Input data:\\n{X_xor}")
+
+# Forward propagation
+output, activations = network.forward_propagation(X_xor, verbose=True)
+
+print(f"\\nNetwork predictions for XOR:")
+for i, (input_val, pred) in enumerate(zip(X_xor, output)):
+    print(f"Input: {input_val} → Output: {pred[0]:.4f}")
+
+# Visualize the network
+network.visualize_network_architecture()
+
+# Example 2: Experiment with different architectures
+print("\\n" + "="*60)
+print("Example 2: Comparing Different Network Architectures")
+print("="*60)
+
+architectures = [
+    [2, 3, 1],      # Small network
+    [2, 8, 4, 1],   # Deeper network
+    [2, 16, 1],     # Wide network
+]
+
+sample_input = np.array([[0.5, 0.8]])
+
+for i, arch in enumerate(architectures):
+    print(f"\\n--- Architecture {i+1}: {arch} ---")
+    net = MultiLayerNetwork(arch, activation='sigmoid')
+    output, _ = net.forward_propagation(sample_input, verbose=False)
+    print(f"Output: {output[0][0]:.4f}")
+
+# Example 3: Data flow visualization
+print("\\n" + "="*60)
+print("Example 3: Visualizing Data Flow Through Layers")
+print("="*60)
+
+# Create a network for demonstration
+demo_network = MultiLayerNetwork([3, 5, 3, 2], activation='tanh')
+
+# Sample input
+demo_input = np.array([[1.0, -0.5, 0.8]])
+print(f"Demo input: {demo_input}")
+
+# Forward propagation with detailed output
+output, all_activations = demo_network.forward_propagation(demo_input, verbose=True)
+
+# Create data flow visualization
+fig, axes = plt.subplots(2, 2, figsize=(12, 8))
+fig.suptitle('Data Flow Through Network Layers', fontsize=16, fontweight='bold')
+
+for i, (ax, activation) in enumerate(zip(axes.flat, all_activations)):
+    if i < len(all_activations):
+        # Plot activation values
+        ax.bar(range(len(activation.flatten())), activation.flatten(), 
+               color=f'C{i}', alpha=0.7)
+        ax.set_title(f'Layer {i} {"(Input)" if i == 0 else "(Hidden)" if i < len(all_activations)-1 else "(Output)"}')
+        ax.set_xlabel('Neuron Index')
+        ax.set_ylabel('Activation Value')
+        ax.grid(True, alpha=0.3)
+    else:
+        ax.axis('off')
+
+plt.tight_layout()
+plt.show()
+
+print("\\n🎯 Key Takeaways:")
+print("1. Multi-layer networks can solve non-linear problems like XOR")
+print("2. Each layer transforms the data step by step")
+print("3. Network architecture (width/depth) affects learning capacity")
+print("4. Forward propagation is just matrix multiplication + activation functions!")
+`
     },
     '5': { 
       title: 'Backpropagation', 
