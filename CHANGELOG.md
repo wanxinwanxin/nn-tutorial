@@ -8,10 +8,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- Chapter 3: The Perceptron implementation
 - Parameter sliders for interactive examples
 - Progress tracking system
 - Enhanced error handling and user feedback
+
+## [0.4.0] - 2025-01-06
+
+### Added
+- **Chapter 3: The Perceptron** - Complete implementation
+  - Comprehensive perceptron learning algorithm with step-by-step visualization
+  - Interactive Python code with real-time training progress display
+  - Binary classification with linearly separable and XOR datasets
+  - Decision boundary visualization showing learning progression
+  - Weight evolution tracking throughout training epochs
+  - Educational content covering perceptron history, limitations, and real-world applications
+  - Learning rule implementation with adjustable learning rate
+  - Training accuracy metrics and individual prediction analysis
+- Enhanced educational content with historical context and AI Winter explanation
+- Real-world analogies (bouncer at club) for better understanding
+- Interactive experiments with different datasets and learning rates
+
+### Changed
+- Updated project status to reflect Chapter 3 completion (3/6 chapters now complete)
+- Enhanced chapter navigation and educational flow
+- Improved code examples with comprehensive commenting and explanations
+
+### Technical
+- Implemented complete Perceptron class with fit/predict methods
+- Added training history tracking for visualization purposes
+- Created decision boundary calculation and plotting functionality
+- Enhanced matplotlib integration with 4-panel visualization layout
 
 ## [0.3.0] - 2025-01-06
 
@@ -112,6 +138,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Release Notes
 
+### Version 0.4.0 Highlights
+🧠 **The Perceptron Arrives!** Chapter 3 introduces the first neural network that can actually learn from data! Watch the perceptron train in real-time, see decision boundaries evolve, and understand why this 1957 breakthrough sparked both AI excitement and the first AI Winter. Complete with XOR demonstration showing the perceptron's fundamental limitation.
+
 ### Version 0.3.0 Highlights
 🎉 **Chapter 2 Complete!** The Neural Network Tutorial now has two fully-functional chapters covering the foundational concepts of neurons and activation functions. Users can interact with ReLU, Sigmoid, and Tanh functions through comprehensive Python examples and visualizations.
 
@@ -127,6 +156,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Chapters Complete | Key Features | Lines of Code |
 |---------|------------------|--------------|---------------|
+| 0.4.0   | 3/6 (50%)       | The Perceptron + Learning Algorithm | ~5,500+ |
 | 0.3.0   | 2/6 (33%)       | Activation Functions | ~4,500+ |
 | 0.2.0   | 1/6 (17%)       | Resizable Layout + Fullscreen | ~3,000+ |
 | 0.1.0   | 1/6 (17%)       | Basic Infrastructure + Chapter 1 | ~2,000+ |

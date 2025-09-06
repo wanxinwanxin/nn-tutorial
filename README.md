@@ -4,11 +4,12 @@ An interactive website that teaches neural network concepts step-by-step with ex
 
 ## 🚧 Current Status
 
-**Version 0.3.0** - 2 out of 6 chapters implemented
+**Version 0.4.0** - 3 out of 6 chapters implemented
 
 - ✅ **Chapter 1: The Neuron** - Complete with interactive code and visualizations
 - ✅ **Chapter 2: Activation Functions** - Complete with ReLU, Sigmoid, Tanh examples
-- 🚧 **Chapters 3-6** - Coming soon (see [ROADMAP.md](./ROADMAP.md))
+- ✅ **Chapter 3: The Perceptron** - Complete with learning algorithm and decision boundaries
+- 🚧 **Chapters 4-6** - Coming soon (see [ROADMAP.md](./ROADMAP.md))
 
 **Live Demo:** Run `npm run dev` and visit `http://localhost:3000`
 
@@ -36,8 +37,13 @@ An interactive website that teaches neural network concepts step-by-step with ex
    - Side-by-side function comparisons
    - Usage guidelines for each function type
 
+3. **The Perceptron** - Binary classification with learning algorithm
+   - Complete perceptron implementation with training visualization
+   - Decision boundary evolution and weight tracking
+   - XOR problem demonstration showing perceptron limitations
+   - Historical context and AI Winter explanation
+
 ### 🚧 Coming Soon
-3. **The Perceptron** - Simple binary classification
 4. **Multi-layer Networks** - Forward propagation through layers  
 5. **Backpropagation** - Learning through gradient descent
 6. **Training Loop** - Putting it all together
@@ -119,17 +125,17 @@ src/
 
 ## 🗺️ Development Roadmap
 
-**Current Progress:** Phase 2 (Content Creation) - 35% Complete
+**Current Progress:** Phase 2 (Content Creation) - 50% Complete
 
 - ✅ **Phase 1**: Core Infrastructure (95% complete)
-- 🔄 **Phase 2**: Content Creation (2/6 chapters done)
+- 🔄 **Phase 2**: Content Creation (3/6 chapters done)
 - ⏳ **Phase 3**: Interactive Features (60% complete)
 - ⏳ **Phase 4**: Polish & Performance (70% complete)
 - ⏳ **Phase 5**: Deployment (30% complete)
 
 See [ROADMAP.md](./ROADMAP.md) for detailed implementation plans and progress tracking.
 
-**Next Priority:** Chapter 3 (The Perceptron) implementation
+**Next Priority:** Chapter 4 (Multi-layer Networks) implementation
 
 ## 🤝 Contributing
 

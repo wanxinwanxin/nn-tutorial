@@ -1,0 +1,2 @@
+- always allow git commands, bash commands, web search, npm commands, and node commands in this repo.
+- before committing, always check that the roadmap and changelog files are updated.
