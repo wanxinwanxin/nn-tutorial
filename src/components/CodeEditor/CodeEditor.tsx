@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import Editor from '@monaco-editor/react'
+import type { editor } from 'monaco-editor'
 import { usePyodide } from '@/hooks/usePyodide'
 
 interface CodeEditorProps {
@@ -20,7 +21,7 @@ export default function CodeEditor({
   const [code, setCode] = useState(defaultCode)
   const [isRunning, setIsRunning] = useState(false)
   const { runCode, isReady, loading, error: pyodideError } = usePyodide()
-  const editorRef = useRef(null)
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null)
 
   useEffect(() => {
     setCode(defaultCode)

@@ -11,7 +11,7 @@ export default function Chapter2() {
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold text-gray-800">Why Do We Need Activation Functions?</h2>
         <p className="text-gray-700 leading-relaxed">
-          In Chapter 1, we learned about neurons that compute <strong>y = w × x + b</strong>. But there's a problem: 
+          In Chapter 1, we learned about neurons that compute <strong>y = w × x + b</strong>. But there&apos;s a problem: 
           this is a linear function! If we stack multiple linear neurons together, we just get another linear function.
         </p>
         
@@ -55,7 +55,7 @@ export default function Chapter2() {
             <div className="font-mono text-sm mb-2">f(x) = max(0, x)</div>
             <p className="text-blue-700 text-sm">
               <strong>Most popular!</strong> Simple and effective. Outputs the input if positive, zero if negative. 
-              Solves the "vanishing gradient" problem and is computationally efficient.
+              Solves the &quot;vanishing gradient&quot; problem and is computationally efficient.
             </p>
           </div>
           
@@ -73,7 +73,7 @@ export default function Chapter2() {
             <div className="font-mono text-sm mb-2">f(x) = (e^x - e^(-x)) / (e^x + e^(-x))</div>
             <p className="text-purple-700 text-sm">
               <strong>S-shaped but centered.</strong> Outputs values between -1 and 1. Often works better 
-              than sigmoid because it's zero-centered, making optimization easier.
+              than sigmoid because it&apos;s zero-centered, making optimization easier.
             </p>
           </div>
         </div>
@@ -203,13 +203,13 @@ export default function Chapter2() {
         <h2 className="text-2xl font-semibold text-gray-800">Next Steps</h2>
         <p className="text-gray-700 leading-relaxed">
           Now that you understand how activation functions add non-linearity to neural networks, 
-          you're ready to learn about the perceptron in Chapter 3. We'll combine neurons with 
+          you&apos;re ready to learn about the perceptron in Chapter 3. We&apos;ll combine neurons with 
           activation functions to create our first learning algorithm!
         </p>
         
         <div className="bg-blue-50 p-4 rounded-lg border border-blue-200">
           <p className="text-blue-700 text-sm">
-            <strong>Key Takeaway:</strong> Activation functions are what make neural networks "neural" - 
+            <strong>Key Takeaway:</strong> Activation functions are what make neural networks &quot;neural&quot; - 
             they allow networks to learn complex patterns by introducing non-linearity into otherwise 
             linear transformations.
           </p>

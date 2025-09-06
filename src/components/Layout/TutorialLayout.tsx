@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, ReactNode, useEffect } from 'react'
+import Link from 'next/link'
 import CodeEditor from '@/components/CodeEditor'
 import { Panel, PanelGroup, PanelResizeHandle } from 'react-resizable-panels'
 
@@ -61,12 +62,12 @@ export default function TutorialLayout({
               {title || 'Neural Network Tutorial'}
             </h1>
             <nav className="flex space-x-4">
-              <a href="/" className="text-blue-600 hover:text-blue-800">
+              <Link href="/" className="text-blue-600 hover:text-blue-800">
                 Home
-              </a>
-              <a href="/chapters/1" className="text-gray-600 hover:text-gray-800">
+              </Link>
+              <Link href="/chapters/1" className="text-gray-600 hover:text-gray-800">
                 Chapters
-              </a>
+              </Link>
             </nav>
           </div>
         </div>

@@ -84,13 +84,13 @@ export default function Chapter1() {
         <ol className="list-decimal list-inside space-y-2 text-gray-700 ml-4">
           <li>How to define a neuron function</li>
           <li>How to compute the output for a given input</li>
-          <li>How to visualize the neuron's behavior across different inputs</li>
+          <li>How to visualize the neuron&apos;s behavior across different inputs</li>
         </ol>
         
         <div className="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
           <h3 className="text-lg font-semibold text-yellow-800 mb-2">Try This:</h3>
           <ul className="space-y-1 text-yellow-700 text-sm">
-            <li>• Change the weight value - see how it affects the line's slope</li>
+            <li>• Change the weight value - see how it affects the line&apos;s slope</li>
             <li>• Modify the bias - notice how it shifts the line up or down</li>
             <li>• Try different input values and observe the outputs</li>
             <li>• Run the code to see the visualization!</li>
@@ -118,7 +118,7 @@ export default function Chapter1() {
       <div className="space-y-4">
         <h2 className="text-2xl font-semibold text-gray-800">Next Steps</h2>
         <p className="text-gray-700 leading-relaxed">
-          Now that you understand the basic neuron, you're ready to learn about activation functions 
+          Now that you understand the basic neuron, you&apos;re ready to learn about activation functions 
           in Chapter 2. Activation functions add non-linearity to neurons, making them much more 
           powerful for solving complex problems.
         </p>

@@ -1,1 +1,2 @@
-export { default as PlotlyVisualization, createLinePlot, createScatterPlot, createFunctionPlot } from './PlotlyVisualization'
+// PlotlyVisualization temporarily removed due to missing type declarations
+// export { default as PlotlyVisualization, createLinePlot, createScatterPlot, createFunctionPlot } from './PlotlyVisualization'
