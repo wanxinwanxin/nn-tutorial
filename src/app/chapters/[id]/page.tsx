@@ -770,7 +770,313 @@ print("4. Forward propagation is just matrix multiplication + activation functio
       description: 'Learning through gradient descent',
       component: Chapter5,
       defaultCode: `# Chapter 5: Backpropagation
-print("Backpropagation tutorial - coming soon!")`
+# Learning through gradient descent - How neural networks actually learn!
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+class BackpropagationNetwork:
+    """
+    A neural network with backpropagation learning
+    Demonstrates gradient computation and weight updates
+    """
+    
+    def __init__(self, layer_sizes, learning_rate=0.1):
+        """Initialize network with backpropagation capability"""
+        self.layer_sizes = layer_sizes
+        self.learning_rate = learning_rate
+        self.num_layers = len(layer_sizes)
+        
+        # Initialize weights and biases
+        self.weights = []
+        self.biases = []
+        
+        print(f"Initializing network: {layer_sizes}")
+        print(f"Learning rate: {learning_rate}")
+        
+        # Xavier initialization for better learning
+        for i in range(len(layer_sizes) - 1):
+            weight_matrix = np.random.randn(layer_sizes[i], layer_sizes[i+1]) * np.sqrt(2.0 / layer_sizes[i])
+            bias_vector = np.zeros((1, layer_sizes[i+1]))
+            
+            self.weights.append(weight_matrix)
+            self.biases.append(bias_vector)
+            
+            print(f"Layer {i+1}: {layer_sizes[i]} → {layer_sizes[i+1]}")
+        
+        # Store training history for visualization
+        self.training_history = []
+    
+    def sigmoid(self, x):
+        """Sigmoid activation function"""
+        return 1 / (1 + np.exp(-np.clip(x, -500, 500)))
+    
+    def sigmoid_derivative(self, x):
+        """Derivative of sigmoid function (needed for backpropagation)"""
+        s = self.sigmoid(x)
+        return s * (1 - s)
+    
+    def forward_propagation(self, X, store_activations=True):
+        """Forward pass through the network"""
+        activations = [X]  # Store activations for each layer
+        z_values = []      # Store pre-activation values (needed for gradients)
+        
+        current_input = X
+        
+        for layer_idx in range(len(self.weights)):
+            # Linear transformation: z = W*x + b
+            z = np.dot(current_input, self.weights[layer_idx]) + self.biases[layer_idx]
+            z_values.append(z)
+            
+            # Apply activation function
+            activation = self.sigmoid(z)
+            activations.append(activation)
+            
+            current_input = activation
+        
+        if store_activations:
+            return current_input, activations, z_values
+        else:
+            return current_input
+    
+    def compute_loss(self, predictions, targets):
+        """Compute Mean Squared Error loss"""
+        return np.mean((predictions - targets) ** 2)
+    
+    def backward_propagation(self, X, y, activations, z_values):
+        """
+        Backward pass - compute gradients using the chain rule
+        This is where the magic happens!
+        """
+        m = X.shape[0]  # Number of samples
+        
+        # Initialize gradient storage
+        weight_gradients = [np.zeros_like(w) for w in self.weights]
+        bias_gradients = [np.zeros_like(b) for b in self.biases]
+        
+        # Start with output layer error
+        # For MSE loss: dL/da = 2(a - y) where a is prediction, y is target
+        output_error = 2 * (activations[-1] - y) / m
+        
+        print("\\n" + "="*50)
+        print("BACKPROPAGATION - GRADIENT COMPUTATION")
+        print("="*50)
+        print(f"Output error: {output_error.flatten()}")
+        
+        # Work backwards through layers
+        current_error = output_error
+        
+        for layer_idx in reversed(range(len(self.weights))):
+            print(f"\\n--- Layer {layer_idx + 1} Gradients ---")
+            
+            # Current layer's pre-activation values
+            z = z_values[layer_idx]
+            
+            # Gradient of activation function
+            activation_gradient = self.sigmoid_derivative(z)
+            
+            # Error for this layer: dL/dz = dL/da * da/dz
+            layer_error = current_error * activation_gradient
+            
+            print(f"Layer error: {layer_error.flatten()}")
+            
+            # Gradient for weights: dL/dW = (previous_activation)^T * dL/dz
+            previous_activation = activations[layer_idx]
+            weight_gradients[layer_idx] = np.dot(previous_activation.T, layer_error)
+            
+            # Gradient for biases: dL/db = sum(dL/dz) across samples
+            bias_gradients[layer_idx] = np.sum(layer_error, axis=0, keepdims=True)
+            
+            print(f"Weight gradient: {weight_gradients[layer_idx].flatten()}")
+            print(f"Bias gradient: {bias_gradients[layer_idx].flatten()}")
+            
+            # Propagate error to previous layer (if not input layer)
+            if layer_idx > 0:
+                # dL/da_prev = dL/dz * W^T
+                current_error = np.dot(layer_error, self.weights[layer_idx].T)
+        
+        return weight_gradients, bias_gradients
+    
+    def update_parameters(self, weight_gradients, bias_gradients):
+        """Update weights and biases using computed gradients"""
+        print(f"\\n--- Parameter Updates (Learning Rate: {self.learning_rate}) ---")
+        
+        for layer_idx in range(len(self.weights)):
+            # Store old values for comparison
+            old_weight = self.weights[layer_idx][0, 0] if self.weights[layer_idx].size > 0 else 0
+            old_bias = self.biases[layer_idx][0, 0] if self.biases[layer_idx].size > 0 else 0
+            
+            # Update rule: new_param = old_param - learning_rate * gradient
+            self.weights[layer_idx] -= self.learning_rate * weight_gradients[layer_idx]
+            self.biases[layer_idx] -= self.learning_rate * bias_gradients[layer_idx]
+            
+            # Show the update
+            new_weight = self.weights[layer_idx][0, 0] if self.weights[layer_idx].size > 0 else 0
+            new_bias = self.biases[layer_idx][0, 0] if self.biases[layer_idx].size > 0 else 0
+            
+            print(f"Layer {layer_idx + 1}: Weight {old_weight:.4f} → {new_weight:.4f}")
+    
+    def train_step(self, X, y, verbose=True):
+        """Perform one training step (forward + backward + update)"""
+        # Forward propagation
+        predictions, activations, z_values = self.forward_propagation(X, store_activations=True)
+        
+        # Compute loss
+        loss = self.compute_loss(predictions, y)
+        
+        if verbose:
+            print(f"\\nPredictions: {predictions.flatten()}")
+            print(f"Targets: {y.flatten()}")
+            print(f"Loss: {loss:.6f}")
+        
+        # Backward propagation
+        weight_gradients, bias_gradients = self.backward_propagation(X, y, activations, z_values)
+        
+        # Update parameters
+        self.update_parameters(weight_gradients, bias_gradients)
+        
+        return loss
+    
+    def train(self, X, y, epochs=20, verbose_frequency=5):
+        """Train the network for multiple epochs"""
+        print(f"\\n🚀 Starting Training for {epochs} epochs")
+        print("="*50)
+        
+        losses = []
+        
+        for epoch in range(epochs):
+            # Perform one training step
+            verbose = (epoch % verbose_frequency == 0) or (epoch < 2) or (epoch >= epochs - 2)
+            loss = self.train_step(X, y, verbose=verbose)
+            
+            losses.append(loss)
+            
+            if verbose:
+                print(f"\\n📊 Epoch {epoch + 1}/{epochs} - Loss: {loss:.6f}")
+        
+        print(f"\\n🎉 Training Complete! Final Loss: {losses[-1]:.6f}")
+        return losses
+
+# Example: Learning XOR with Backpropagation
+print("🤖 Learning XOR with Backpropagation")
+print("=" * 50)
+
+# XOR dataset - the classic non-linear problem
+X_xor = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y_xor = np.array([[0], [1], [1], [0]])
+
+print("XOR Dataset:")
+for i in range(len(X_xor)):
+    print(f"Input: {X_xor[i]} → Target: {y_xor[i][0]}")
+
+# Create network: 2 inputs → 4 hidden → 1 output
+network = BackpropagationNetwork([2, 4, 1], learning_rate=1.0)
+
+# Test before training
+print("\\n🔍 Before Training:")
+predictions_before = network.forward_propagation(X_xor, store_activations=False)
+print("Predictions:", predictions_before.flatten())
+print("Targets:   ", y_xor.flatten())
+
+# Train the network
+losses = network.train(X_xor, y_xor, epochs=20, verbose_frequency=10)
+
+# Test after training
+print("\\n🎯 After Training:")
+predictions_after = network.forward_propagation(X_xor, store_activations=False)
+print("Predictions:", predictions_after.flatten())
+print("Targets:   ", y_xor.flatten())
+
+# Visualize training progress
+plt.figure(figsize=(12, 8))
+
+# Plot 1: Loss curve
+plt.subplot(2, 2, 1)
+plt.plot(losses, 'b-', linewidth=2, marker='o')
+plt.title('Training Loss Over Time')
+plt.xlabel('Epoch')
+plt.ylabel('Loss (MSE)')
+plt.grid(True, alpha=0.3)
+plt.yscale('log')
+
+# Plot 2: Predictions vs Targets
+plt.subplot(2, 2, 2)
+x_pos = np.arange(len(X_xor))
+plt.bar(x_pos - 0.2, y_xor.flatten(), 0.4, label='Target', alpha=0.7, color='green')
+plt.bar(x_pos + 0.2, predictions_after.flatten(), 0.4, label='Prediction', alpha=0.7, color='blue')
+plt.xlabel('XOR Sample')
+plt.ylabel('Output')
+plt.title('Final Predictions vs Targets')
+plt.xticks(x_pos, ['[0,0]', '[0,1]', '[1,0]', '[1,1]'])
+plt.legend()
+plt.grid(True, alpha=0.3)
+
+# Plot 3: Learning rate comparison
+plt.subplot(2, 2, 3)
+learning_rates = [0.1, 0.5, 1.0, 2.0]
+final_losses = []
+
+for lr in learning_rates:
+    net = BackpropagationNetwork([2, 4, 1], learning_rate=lr)
+    losses_lr = net.train(X_xor, y_xor, epochs=20, verbose_frequency=1000)  # Silent training
+    final_losses.append(losses_lr[-1])
+
+plt.bar(range(len(learning_rates)), final_losses, color=['red', 'orange', 'green', 'blue'], alpha=0.7)
+plt.xlabel('Learning Rate')
+plt.ylabel('Final Loss')
+plt.title('Learning Rate Effect on Final Loss')
+plt.xticks(range(len(learning_rates)), learning_rates)
+plt.grid(True, alpha=0.3)
+
+# Plot 4: Network architecture
+plt.subplot(2, 2, 4)
+layer_sizes = network.layer_sizes
+max_neurons = max(layer_sizes)
+
+for layer_idx, layer_size in enumerate(layer_sizes):
+    # Calculate neuron positions
+    if layer_size == 1:
+        positions = [max_neurons / 2]
+    else:
+        positions = np.linspace(0, max_neurons, layer_size)
+    
+    # Draw neurons
+    for pos in positions:
+        circle = plt.Circle((layer_idx, pos), 0.15, color=f'C{layer_idx}', alpha=0.7)
+        plt.gca().add_patch(circle)
+    
+    # Add labels
+    if layer_idx == 0:
+        label = f'Input\\n({layer_size})'
+    elif layer_idx == len(layer_sizes) - 1:
+        label = f'Output\\n({layer_size})'
+    else:
+        label = f'Hidden\\n({layer_size})'
+    
+    plt.text(layer_idx, -0.5, label, ha='center', va='center', fontweight='bold')
+
+plt.xlim(-0.5, len(layer_sizes) - 0.5)
+plt.ylim(-1, max_neurons + 0.5)
+plt.title('Network Architecture')
+plt.axis('off')
+
+plt.tight_layout()
+plt.show()
+
+print("\\n🎯 Key Insights from Backpropagation:")
+print("1. The network learns by computing gradients and updating weights")
+print("2. Loss decreases over time as the network learns the XOR pattern")
+print("3. Different learning rates affect convergence speed and stability")
+print("4. Backpropagation enables learning of non-linear patterns!")
+
+print("\\n💡 Try This:")
+print("1. Change the learning rate and see how it affects training")
+print("2. Modify the network architecture (add more hidden neurons)")
+print("3. Try different datasets (AND, OR gates)")
+print("4. Observe how gradients flow backwards through the layers")
+
+print("\\n🚀 Next: Chapter 6 will show how to put this all together")
+print("   in a complete training loop with batches, validation, and more!")`
     },
     '6': { 
       title: 'Training Loop', 
