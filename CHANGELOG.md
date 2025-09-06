@@ -8,10 +8,41 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Planned
-- Chapter 5: Backpropagation implementation
+- Chapter 6: Training Loop implementation
 - Parameter sliders for interactive examples
 - Progress tracking system
 - Enhanced error handling and user feedback
+
+## [0.6.0] - 2025-01-06
+
+### Added
+- **Chapter 5: Backpropagation** - Complete implementation
+  - Comprehensive educational content covering chain rule and gradient computation
+  - Interactive Python code with complete BackpropagationNetwork class
+  - Step-by-step gradient calculation with detailed logging and visualization
+  - XOR problem solution using backpropagation learning algorithm
+  - Weight update visualization showing parameter changes during training
+  - Learning rate experiments demonstrating effects on convergence
+  - Loss curve visualization showing network learning progress over time
+  - Network architecture visualization with neuron connections
+  - Mathematical foundation explanations with real-world analogies
+  - Historical context covering backpropagation's impact on modern AI
+- Educational content covering gradient descent, chain rule, and loss functions
+- Real-world analogies (chef improving recipe) for understanding error propagation
+- Interactive experiments with different learning rates and architectures
+
+### Changed
+- Updated project status to reflect Chapter 5 completion (5/6 chapters now complete - 83% content creation)
+- Enhanced educational progression from forward propagation to complete learning
+- Improved code examples with comprehensive gradient computation explanations
+
+### Technical
+- Implemented complete BackpropagationNetwork class with gradient computation
+- Added sigmoid derivative calculation for backpropagation
+- Created comprehensive gradient flow visualization and weight update tracking
+- Enhanced training loop with detailed step-by-step gradient computation logging
+- Added learning rate comparison experiments and convergence analysis
+- Implemented MSE loss function with gradient calculation
 
 ## [0.5.0] - 2025-01-06
 
@@ -167,6 +198,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Release Notes
 
+### Version 0.6.0 Highlights
+🧠 **Backpropagation Mastery!** Chapter 5 reveals how neural networks actually learn! Experience gradient computation step-by-step, watch weights update in real-time, and see the XOR problem solved through learning. Complete with chain rule explanations, gradient flow visualizations, and learning rate experiments.
+
 ### Version 0.5.0 Highlights
 🚀 **Multi-layer Networks Unleashed!** Chapter 4 breaks through the perceptron's limitations with multi-layer networks that can solve ANY pattern! Experience forward propagation step-by-step, design custom network architectures, and finally solve the XOR problem. Complete with network diagrams and data flow visualizations.
 
@@ -188,6 +222,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 | Version | Chapters Complete | Key Features | Lines of Code |
 |---------|------------------|--------------|---------------|
+| 0.6.0   | 5/6 (83%)       | Backpropagation + Gradient Learning | ~8,500+ |
 | 0.5.0   | 4/6 (67%)       | Multi-layer Networks + Forward Propagation | ~7,000+ |
 | 0.4.0   | 3/6 (50%)       | The Perceptron + Learning Algorithm | ~5,500+ |
 | 0.3.0   | 2/6 (33%)       | Activation Functions | ~4,500+ |

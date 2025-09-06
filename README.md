@@ -4,13 +4,14 @@ An interactive website that teaches neural network concepts step-by-step with ex
 
 ## 🚧 Current Status
 
-**Version 0.5.0** - 4 out of 6 chapters implemented
+**Version 0.6.0** - 5 out of 6 chapters implemented
 
 - ✅ **Chapter 1: The Neuron** - Complete with interactive code and visualizations
 - ✅ **Chapter 2: Activation Functions** - Complete with ReLU, Sigmoid, Tanh examples
 - ✅ **Chapter 3: The Perceptron** - Complete with learning algorithm and decision boundaries
 - ✅ **Chapter 4: Multi-layer Networks** - Complete with forward propagation and network architecture
-- 🚧 **Chapters 5-6** - Coming soon (see [ROADMAP.md](./ROADMAP.md))
+- ✅ **Chapter 5: Backpropagation** - Complete with gradient computation and learning visualization
+- 🚧 **Chapter 6** - Coming soon (see [ROADMAP.md](./ROADMAP.md))
 
 **Live Demo:** Run `npm run dev` and visit `http://localhost:3000`
 
@@ -51,8 +52,14 @@ An interactive website that teaches neural network concepts step-by-step with ex
    - XOR problem solution demonstration with multi-layer approach
    - Interactive architecture comparison (width vs depth)
 
+5. **Backpropagation** - Learn how neural networks actually learn from data
+   - Complete backpropagation algorithm with step-by-step gradient calculation
+   - Chain rule explanation with real-world analogies
+   - Weight update visualization during training
+   - XOR problem solution using gradient descent
+   - Learning rate experiments and convergence analysis
+
 ### 🚧 Coming Soon
-5. **Backpropagation** - Learning through gradient descent
 6. **Training Loop** - Putting it all together
 
 ## 🛠️ Technology Stack
@@ -132,17 +139,17 @@ src/
 
 ## 🗺️ Development Roadmap
 
-**Current Progress:** Phase 2 (Content Creation) - 67% Complete
+**Current Progress:** Phase 2 (Content Creation) - 83% Complete
 
 - ✅ **Phase 1**: Core Infrastructure (95% complete)
-- 🔄 **Phase 2**: Content Creation (4/6 chapters done)
+- 🔄 **Phase 2**: Content Creation (5/6 chapters done)
 - ⏳ **Phase 3**: Interactive Features (60% complete)
 - ⏳ **Phase 4**: Polish & Performance (70% complete)
 - ⏳ **Phase 5**: Deployment (30% complete)
 
 See [ROADMAP.md](./ROADMAP.md) for detailed implementation plans and progress tracking.
 
-**Next Priority:** Chapter 5 (Backpropagation) implementation
+**Next Priority:** Chapter 6 (Training Loop) implementation
 
 ## 🤝 Contributing
 
