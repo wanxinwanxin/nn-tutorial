@@ -2,7 +2,7 @@
 'use client'
 
 import { useState } from 'react'
-import { QuizComponent, CodeExercise, ProgressTracker, InteractiveSlider } from '../../../../components/Interactive'
+import { QuizComponent, CodeExercise, FloatingProgressTracker, InteractiveSlider } from '../../../../components/Interactive'
 
 export default function Chapter6() {
   const [currentChunk, setCurrentChunk] = useState(0)
@@ -35,9 +35,9 @@ export default function Chapter6() {
   }
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-      {/* Main Content */}
-      <div className="lg:col-span-3 space-y-6">
+    <div className="space-y-6">
+      {/* Main Content - Now Full Width */}
+      <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Chapter 6: Training Loop</h1>
           <p className="text-xl text-gray-600">
@@ -62,10 +62,12 @@ export default function Chapter6() {
         {currentChunk === 5 && <Chunk6 onExerciseComplete={handleExerciseComplete} />}
       </div>
 
-      {/* Progress Sidebar */}
-      <div className="lg:col-span-1">
-        <ProgressTracker chunks={chunkProgress} currentChunk={currentChunk} />
-      </div>
+      {/* Floating Progress Tracker */}
+      <FloatingProgressTracker 
+        chunks={chunkProgress} 
+        currentChunk={currentChunk} 
+        chapterTitle="Chapter 6: Training Loop"
+      />
     </div>
   )
 }

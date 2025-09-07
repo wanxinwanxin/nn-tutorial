@@ -144,7 +144,7 @@ export default function TutorialLayout({
             <div className="flex-1 min-h-0">
               {activeTab === 'content' && (
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full overflow-auto">
-                  <div className="p-4">
+                  <div className="p-6">
                     {children}
                   </div>
                 </div>
@@ -174,7 +174,7 @@ export default function TutorialLayout({
                     )}
                   </div>
                   
-                  <div className="flex-1 p-4 overflow-auto min-h-0">
+                  <div className="flex-1 p-5 overflow-auto min-h-0">
                     {!executionResult && (
                       <div className="text-center text-gray-500 mt-8">
                         <p className="text-sm">No output yet</p>
@@ -183,7 +183,7 @@ export default function TutorialLayout({
                     )}
                     
                     {executionResult?.error && (
-                      <div className="bg-red-50 border border-red-200 rounded-md p-3 mb-3">
+                      <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
                         <p className="text-red-800 text-sm font-medium">Error:</p>
                         <pre className="text-red-700 text-sm mt-1 whitespace-pre-wrap">
                           {executionResult.error}
@@ -192,7 +192,7 @@ export default function TutorialLayout({
                     )}
                     
                     {executionResult?.output && (
-                      <div className="bg-gray-50 border border-gray-200 rounded-md p-3 mb-3">
+                      <div className="bg-gray-50 border border-gray-200 rounded-md p-4 mb-4">
                         <p className="text-gray-800 text-sm font-medium">Output:</p>
                         <pre className="text-gray-700 text-sm mt-1 whitespace-pre-wrap font-mono">
                           {executionResult.output}
@@ -201,7 +201,7 @@ export default function TutorialLayout({
                     )}
                     
                     {executionResult?.images && executionResult.images.length > 0 && (
-                      <div className="bg-green-50 border border-green-200 rounded-md p-3 mb-3">
+                      <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-4">
                         <div className="flex items-center justify-between mb-2">
                           <p className="text-green-800 text-sm font-medium">Plots:</p>
                           <button
@@ -226,7 +226,7 @@ export default function TutorialLayout({
                     )}
                     
                     {executionResult?.result !== null && executionResult?.result !== undefined && (
-                      <div className="bg-blue-50 border border-blue-200 rounded-md p-3">
+                      <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
                         <p className="text-blue-800 text-sm font-medium">Result:</p>
                         <pre className="text-blue-700 text-sm mt-1 whitespace-pre-wrap font-mono">
                           {String(executionResult.result)}
@@ -245,22 +245,22 @@ export default function TutorialLayout({
             className="h-full"
             autoSaveId="tutorial-layout"
           >
-            {/* Tutorial Content Panel - Improved ratios */}
-            <Panel defaultSize={45} minSize={30} className="h-full">
+            {/* Tutorial Content Panel - Optimized for better readability */}
+            <Panel defaultSize={38} minSize={25} className="h-full">
               <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full overflow-auto">
-                <div className="p-6">
+                <div className="p-8">
                   {children}
                 </div>
               </div>
             </Panel>
 
-            <PanelResizeHandle className="w-2 bg-gray-200 hover:bg-blue-400 transition-colors active:bg-blue-500" />
+            <PanelResizeHandle className="w-3 bg-gray-300 hover:bg-blue-400 transition-all duration-200 active:bg-blue-500 hover:w-4" />
 
-            {/* Code Editor + Output Panel Group - Improved ratios */}
-            <Panel defaultSize={55} minSize={35} className="h-full">
+            {/* Code Editor + Output Panel Group - Optimized for better coding experience */}
+            <Panel defaultSize={62} minSize={40} className="h-full">
               <PanelGroup direction="vertical" className="h-full">
-                {/* Code Editor Panel */}
-                <Panel defaultSize={65} minSize={35} className="h-full">
+                {/* Code Editor Panel - More space for comfortable coding */}
+                <Panel defaultSize={68} minSize={40} className="h-full">
                   <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full">
                     <CodeEditor
                       defaultCode={defaultCode}
@@ -270,12 +270,12 @@ export default function TutorialLayout({
                   </div>
                 </Panel>
 
-                <PanelResizeHandle className="h-2 bg-gray-200 hover:bg-blue-400 transition-colors active:bg-blue-500" />
+                <PanelResizeHandle className="h-3 bg-gray-300 hover:bg-blue-400 transition-all duration-200 active:bg-blue-500 hover:h-4" />
 
-                {/* Output Panel */}
-                <Panel defaultSize={35} minSize={20} className="h-full">
+                {/* Output Panel - Better proportions for visualization */}
+                <Panel defaultSize={32} minSize={25} className="h-full">
                   <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full flex flex-col">
-                    <div className="flex items-center justify-between p-4 border-b border-gray-200 flex-shrink-0">
+                    <div className="flex items-center justify-between p-5 border-b border-gray-200 flex-shrink-0">
                       <h3 className="text-sm font-medium text-gray-700">Output</h3>
                       {executionResult && (
                         <button
@@ -287,7 +287,7 @@ export default function TutorialLayout({
                       )}
                     </div>
                     
-                    <div className="flex-1 p-4 overflow-auto min-h-0">
+                    <div className="flex-1 p-6 overflow-auto min-h-0">
                       {!executionResult && (
                         <p className="text-gray-500 text-sm">
                           Run code to see output here
@@ -295,7 +295,7 @@ export default function TutorialLayout({
                       )}
                       
                       {executionResult?.error && (
-                        <div className="bg-red-50 border border-red-200 rounded-md p-3 mb-3">
+                        <div className="bg-red-50 border border-red-200 rounded-md p-4 mb-4">
                           <p className="text-red-800 text-sm font-medium">Error:</p>
                           <pre className="text-red-700 text-sm mt-1 whitespace-pre-wrap">
                             {executionResult.error}
@@ -304,7 +304,7 @@ export default function TutorialLayout({
                       )}
                       
                       {executionResult?.output && (
-                        <div className="bg-gray-50 border border-gray-200 rounded-md p-3 mb-3">
+                        <div className="bg-gray-50 border border-gray-200 rounded-md p-4 mb-4">
                           <p className="text-gray-800 text-sm font-medium">Output:</p>
                           <pre className="text-gray-700 text-sm mt-1 whitespace-pre-wrap font-mono">
                             {executionResult.output}
@@ -313,7 +313,7 @@ export default function TutorialLayout({
                       )}
                       
                       {executionResult?.images && executionResult.images.length > 0 && (
-                        <div className="bg-green-50 border border-green-200 rounded-md p-3 mb-3">
+                        <div className="bg-green-50 border border-green-200 rounded-md p-4 mb-4">
                           <div className="flex items-center justify-between mb-2">
                             <p className="text-green-800 text-sm font-medium">Plots:</p>
                             <button
@@ -338,7 +338,7 @@ export default function TutorialLayout({
                       )}
                       
                       {executionResult?.result !== null && executionResult?.result !== undefined && (
-                        <div className="bg-blue-50 border border-blue-200 rounded-md p-3">
+                        <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
                           <p className="text-blue-800 text-sm font-medium">Result:</p>
                           <pre className="text-blue-700 text-sm mt-1 whitespace-pre-wrap font-mono">
                             {String(executionResult.result)}

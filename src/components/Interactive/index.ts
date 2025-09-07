@@ -1,4 +1,5 @@
 export { default as QuizComponent } from './QuizComponent'
 export { default as CodeExercise } from './CodeExercise'
 export { default as ProgressTracker } from './ProgressTracker'
+export { default as FloatingProgressTracker } from './FloatingProgressTracker'
 export { default as InteractiveSlider } from './InteractiveSlider'
