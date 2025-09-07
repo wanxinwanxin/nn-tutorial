@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 'use client'
 
 import { useState } from 'react'
@@ -98,10 +99,10 @@ function Chunk1({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
         <div className="bg-blue-100 p-4 rounded-lg">
           <h4 className="text-lg font-semibold text-blue-800 mb-2">🍳 Real-World Analogy: Learning to Cook</h4>
           <p className="text-blue-700 text-sm">
-            Imagine you're learning to make the perfect pancake. You don't get it right on the first try!
+            Imagine you&apos;re learning to make the perfect pancake. You don&apos;t get it right on the first try!
             You make one pancake (forward pass), taste it (calculate loss), adjust the recipe 
-            (backpropagation), then make another pancake. You repeat this until you're consistently 
-            making great pancakes. That's exactly how neural networks learn!
+            (backpropagation), then make another pancake. You repeat this until you&apos;re consistently 
+            making great pancakes. That&apos;s exactly how neural networks learn!
           </p>
         </div>
       </div>
@@ -161,7 +162,7 @@ function Chunk2({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
         <div className="bg-yellow-100 p-4 rounded-lg">
           <h4 className="text-lg font-semibold text-yellow-800 mb-2">📚 Why Multiple Epochs?</h4>
           <p className="text-yellow-700 text-sm">
-            Just like studying for an exam, you don't learn everything after reading the material once! 
+            Just like studying for an exam, you don&apos;t learn everything after reading the material once! 
             Neural networks need to see the same data multiple times to gradually improve their understanding.
             Each epoch, they get a little bit better at recognizing patterns.
           </p>
@@ -233,7 +234,7 @@ function Chunk3({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
       <div className="bg-purple-50 p-4 rounded-lg border-l-4 border-purple-400">
         <h2 className="text-2xl font-semibold text-purple-800 mb-2">Chunk 3: Train/Validation Splits</h2>
         <p className="text-purple-700">
-          Learn to prevent overfitting by properly evaluating your model's performance.
+          Learn to prevent overfitting by properly evaluating your model&apos;s performance.
         </p>
       </div>
 
@@ -302,7 +303,7 @@ function Chunk3({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
           <h4 className="text-lg font-semibold text-yellow-800 mb-2">🔀 Why Shuffle First?</h4>
           <p className="text-yellow-700 text-sm">
             If your data is ordered (like all cats first, then all dogs), splitting without shuffling would put 
-            all cats in training and all dogs in validation. That's not representative!
+            all cats in training and all dogs in validation. That&apos;s not representative!
           </p>
         </div>
       </div>
@@ -315,7 +316,7 @@ function Chunk3({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
           { id: 'c', text: 'The validation data is corrupted', isCorrect: false },
           { id: 'd', text: 'The model needs more training epochs', isCorrect: false }
         ]}
-        explanation="This is a classic sign of overfitting! The model has memorized the training data instead of learning generalizable patterns. The large gap between training and validation accuracy indicates the model won't perform well on new, unseen data."
+        explanation="This is a classic sign of overfitting! The model has memorized the training data instead of learning generalizable patterns. The large gap between training and validation accuracy indicates the model won&apos;t perform well on new, unseen data."
         onComplete={onExerciseComplete}
       />
     </div>
@@ -330,15 +331,15 @@ function Chunk4({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
       <div className="bg-red-50 p-4 rounded-lg border-l-4 border-red-400">
         <h2 className="text-2xl font-semibold text-red-800 mb-2">Chunk 4: Loss Monitoring & Visualization</h2>
         <p className="text-red-700">
-          Learn to read training curves like a doctor reads an EKG - they tell you everything about your model's health!
+          Learn to read training curves like a doctor reads an EKG - they tell you everything about your model&apos;s health!
         </p>
       </div>
 
       <div className="space-y-4">
         <h3 className="text-xl font-semibold text-gray-800">What Are Loss Curves?</h3>
         <p className="text-gray-700 leading-relaxed">
-          Loss curves are plots that show how your model's error decreases over time during training. 
-          They're like a pulse monitor for your neural network - they tell you if learning is healthy or if something's wrong.
+          Loss curves are plots that show how your model&apos;s error decreases over time during training. 
+          They're like a pulse monitor for your neural network - they tell you if learning is healthy or if something&apos;s wrong.
         </p>
         
         <div className="bg-blue-100 p-4 rounded-lg">
@@ -387,7 +388,7 @@ function Chunk4({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
             <ul className="space-y-1 text-red-700 text-sm">
               <li>• Loss jumps around wildly</li>
               <li>• No smooth downward trend</li>
-              <li>• Model can't converge</li>
+              <li>• Model can&apos;t converge</li>
             </ul>
           </div>
           
@@ -484,7 +485,7 @@ function Chunk5({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
           <h4 className="text-lg font-semibold text-yellow-800 mb-2">🎛️ Think of It Like Cooking</h4>
           <p className="text-yellow-700 text-sm">
             The ingredients are your data, the cooking process is training, but YOU decide the oven temperature (learning rate), 
-            cooking time (epochs), and batch size. Get these wrong, and even good ingredients won't make a good meal!
+            cooking time (epochs), and batch size. Get these wrong, and even good ingredients won&apos;t make a good meal!
           </p>
         </div>
       </div>
@@ -586,14 +587,14 @@ function Chunk6({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
       <div className="bg-pink-50 p-4 rounded-lg border-l-4 border-pink-400">
         <h2 className="text-2xl font-semibold text-pink-800 mb-2">Chunk 6: Early Stopping & Model Evaluation</h2>
         <p className="text-pink-700">
-          Master the final pieces: knowing when to stop training and properly evaluating your model's performance.
+          Master the final pieces: knowing when to stop training and properly evaluating your model&apos;s performance.
         </p>
       </div>
 
       <div className="space-y-4">
         <h3 className="text-xl font-semibold text-gray-800">Early Stopping: The Art of Knowing When to Quit</h3>
         <p className="text-gray-700 leading-relaxed">
-          Early stopping is like knowing when to stop cooking - too little and it's underdone, too much and it's burnt! 
+          Early stopping is like knowing when to stop cooking - too little and it&apos;s underdone, too much and it&apos;s burnt! 
           We monitor the validation loss and stop training when it stops improving.
         </p>
         
@@ -677,7 +678,7 @@ function Chunk6({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
         <h3 className="text-xl font-semibold text-gray-800">🎓 Congratulations!</h3>
         <div className="bg-gradient-to-r from-green-50 to-blue-50 p-6 rounded-lg border border-green-200">
           <p className="text-gray-700 leading-relaxed mb-4">
-            You've now learned the complete neural network training pipeline! From basic neurons to production-ready training loops, 
+            You&apos;ve now learned the complete neural network training pipeline! From basic neurons to production-ready training loops, 
             you understand:
           </p>
           
