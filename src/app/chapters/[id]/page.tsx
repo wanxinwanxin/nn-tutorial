@@ -6,6 +6,7 @@ import { TutorialLayout } from '@/components/Layout'
 
 // Import chapter content components
 import Chapter1 from './chapters/Chapter1'
+import Chapter1Chunked from './chapters/Chapter1Chunked'
 import Chapter2 from './chapters/Chapter2'
 import Chapter3 from './chapters/Chapter3'
 import Chapter4 from './chapters/Chapter4'
@@ -19,8 +20,8 @@ export default function ChapterPage() {
   const chapters = {
     '1': { 
       title: 'The Neuron', 
-      description: 'Basic math operations and neural computation',
-      component: Chapter1,
+      description: 'Interactive micro-learning chunks with exercises',
+      component: Chapter1Chunked,
       defaultCode: `# Chapter 1: The Neuron
 # Understanding the basic building block of neural networks
 
