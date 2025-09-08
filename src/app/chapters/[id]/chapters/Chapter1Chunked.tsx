@@ -4,7 +4,17 @@
 import { useState } from 'react'
 import { QuizComponent, CodeExercise, FloatingProgressTracker, InteractiveSlider } from '../../../../components/Interactive'
 
-export default function Chapter1Chunked() {
+interface Chapter1ChunkedProps {
+  onLoadInEditor?: (code: string) => void
+  currentEditorCode?: string
+  onCheckSolution?: () => Promise<any>
+}
+
+export default function Chapter1Chunked({ 
+  onLoadInEditor,
+  currentEditorCode,
+  onCheckSolution
+}: Chapter1ChunkedProps = {}) {
   const [currentChunk, setCurrentChunk] = useState(0)
   const [chunkProgress, setChunkProgress] = useState([
     { id: 'chunk1', title: 'What is a Neuron?', completed: false },

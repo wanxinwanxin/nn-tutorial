@@ -3,6 +3,7 @@
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { TutorialLayout } from '@/components/Layout'
+import { useCodeExercise } from '@/hooks/useCodeExercise'
 
 // Import chapter content components
 import Chapter1 from './chapters/Chapter1'
@@ -1090,6 +1091,9 @@ print("Training loop tutorial - coming soon!")`
 
   const chapter = chapters[chapterId as keyof typeof chapters]
 
+  // Initialize code exercise communication
+  const { codeFromExercise, currentCode, onCodeChange, onLoadInEditor, onCheckSolution } = useCodeExercise(chapter?.defaultCode || '')
+
   if (!chapter) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -1109,8 +1113,14 @@ print("Training loop tutorial - coming soon!")`
     <TutorialLayout 
       title={`Chapter ${chapterId}: ${chapter.title}`}
       defaultCode={chapter.defaultCode}
+      codeFromExercise={codeFromExercise}
+      onCodeChange={onCodeChange}
     >
-      <ChapterComponent />
+      <ChapterComponent 
+        onLoadInEditor={onLoadInEditor}
+        currentEditorCode={currentCode}
+        onCheckSolution={onCheckSolution}
+      />
       
       {/* Navigation */}
       <div className="flex justify-between mt-12 pt-6 border-t border-gray-200">
