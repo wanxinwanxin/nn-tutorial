@@ -9,37 +9,87 @@ interface CodeExerciseProps {
   solution: string
   hint: string
   onComplete: (correct: boolean) => void
+  // New props for Monaco integration
+  onLoadInEditor?: (code: string) => void
+  currentEditorCode?: string
+  onCheckSolution?: () => Promise<any>
 }
 
-export default function CodeExercise({ title, description, codeTemplate, solution, hint, onComplete }: CodeExerciseProps) {
-  const [userCode, setUserCode] = useState(codeTemplate)
+export default function CodeExercise({ 
+  title, 
+  description, 
+  codeTemplate, 
+  solution, 
+  hint, 
+  onComplete,
+  onLoadInEditor,
+  currentEditorCode,
+  onCheckSolution
+}: CodeExerciseProps) {
   const [showResult, setShowResult] = useState(false)
   const [isCorrect, setIsCorrect] = useState(false)
   const [showHint, setShowHint] = useState(false)
   const [showSolution, setShowSolution] = useState(false)
+  const [codeLoadedInEditor, setCodeLoadedInEditor] = useState(false)
+  const [isChecking, setIsChecking] = useState(false)
 
-  const checkSolution = () => {
-    // Simple string matching - could be enhanced with more sophisticated checking
-    const normalizedUser = userCode.trim().replace(/\s+/g, ' ')
-    const normalizedSolution = solution.trim().replace(/\s+/g, ' ')
-    const correct = normalizedUser.includes(normalizedSolution) || normalizedUser === normalizedSolution
-    
-    setIsCorrect(correct)
-    setShowResult(true)
-    onComplete(correct)
+  const loadExerciseInEditor = () => {
+    if (onLoadInEditor) {
+      onLoadInEditor(codeTemplate)
+      setCodeLoadedInEditor(true)
+      setShowResult(false)
+      setIsCorrect(false)
+    }
+  }
+
+  const checkSolution = async () => {
+    if (!onCheckSolution) {
+      // Fallback to simple string matching if no execution available
+      const normalizedUser = (currentEditorCode || '').trim().replace(/\s+/g, ' ')
+      const normalizedSolution = solution.trim().replace(/\s+/g, ' ')
+      const correct = normalizedUser.includes(normalizedSolution) || normalizedUser === normalizedSolution
+      
+      setIsCorrect(correct)
+      setShowResult(true)
+      onComplete(correct)
+      return
+    }
+
+    setIsChecking(true)
+    try {
+      const result = await onCheckSolution()
+      // Determine correctness based on execution result
+      const correct = !result.error && result.output && !result.output.includes('Error')
+      
+      setIsCorrect(correct)
+      setShowResult(true)
+      onComplete(correct)
+    } catch (error) {
+      setIsCorrect(false)
+      setShowResult(true)
+      onComplete(false)
+    } finally {
+      setIsChecking(false)
+    }
   }
 
   const handleReset = () => {
-    setUserCode(codeTemplate)
+    if (onLoadInEditor) {
+      onLoadInEditor(codeTemplate)
+    }
     setShowResult(false)
     setIsCorrect(false)
     setShowHint(false)
     setShowSolution(false)
+    setCodeLoadedInEditor(false)
   }
 
   const showSolutionHandler = () => {
-    setUserCode(solution)
-    setShowSolution(true)
+    if (onLoadInEditor) {
+      onLoadInEditor(solution)
+      setShowSolution(true)
+      setCodeLoadedInEditor(true)
+    }
   }
 
   return (
@@ -53,15 +103,40 @@ export default function CodeExercise({ title, description, codeTemplate, solutio
       
       <p className="text-purple-900">{description}</p>
       
-      <div className="bg-gray-900 p-4 rounded-lg">
-        <textarea
-          value={userCode}
-          onChange={(e) => setUserCode(e.target.value)}
-          className="w-full h-32 bg-transparent text-green-400 font-mono text-sm resize-none border-none outline-none"
-          placeholder="Type your code here..."
-          disabled={showResult && isCorrect}
-        />
-      </div>
+      {!codeLoadedInEditor ? (
+        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 p-6 rounded-lg border border-blue-200">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                <span className="text-white text-sm">💻</span>
+              </div>
+              <div>
+                <p className="text-blue-900 font-medium">Use the Code Editor →</p>
+                <p className="text-blue-700 text-sm">Load this exercise in the Monaco editor for the best coding experience</p>
+              </div>
+            </div>
+            <button
+              onClick={loadExerciseInEditor}
+              className="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-all flex items-center gap-2"
+            >
+              📝 Load in Editor →
+            </button>
+          </div>
+        </div>
+      ) : (
+        <div className="bg-green-50 p-4 rounded-lg border border-green-200">
+          <div className="flex items-center gap-2 text-green-800">
+            <span className="text-lg">⚡</span>
+            <span className="font-medium">Code loaded in editor!</span>
+            <span className="text-sm text-green-600">→ Switch to Code tab to continue</span>
+          </div>
+          {currentEditorCode && (
+            <div className="mt-2 text-sm text-green-700">
+              Current editor has {currentEditorCode.split('\n').length} lines of code
+            </div>
+          )}
+        </div>
+      )}
 
       {showResult && (
         <div className={`p-4 rounded-lg ${
@@ -102,9 +177,19 @@ export default function CodeExercise({ title, description, codeTemplate, solutio
         {!showResult ? (
           <button
             onClick={checkSolution}
-            className="px-4 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 transition-all"
+            disabled={!codeLoadedInEditor || isChecking}
+            className="px-4 py-2 bg-purple-500 text-white rounded-lg font-medium hover:bg-purple-600 transition-all disabled:bg-gray-400 disabled:cursor-not-allowed flex items-center gap-2"
           >
-            Check Code
+            {isChecking ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                Checking...
+              </>
+            ) : (
+              <>
+                🔍 Check Solution
+              </>
+            )}
           </button>
         ) : (
           <button

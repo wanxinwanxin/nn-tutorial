@@ -10,13 +10,18 @@ interface TutorialLayoutProps {
   defaultCode?: string
   title?: string
   onCodeExecute?: (result: { result: any; output: string; images?: string[]; error?: string }) => void
+  // New props for code exercise integration
+  codeFromExercise?: string
+  onCodeChange?: (code: string) => void
 }
 
 export default function TutorialLayout({
   children,
   defaultCode = '',
   title,
-  onCodeExecute
+  onCodeExecute,
+  codeFromExercise,
+  onCodeChange
 }: TutorialLayoutProps) {
   const [executionResult, setExecutionResult] = useState<{
     result: any
@@ -27,6 +32,7 @@ export default function TutorialLayout({
   const [fullscreenImage, setFullscreenImage] = useState<string | null>(null)
   const [isMobile, setIsMobile] = useState(false)
   const [activeTab, setActiveTab] = useState<'content' | 'code' | 'output'>('content')
+  const [currentCode, setCurrentCode] = useState(defaultCode)
 
   const handleCodeExecute = (result: { result: any; output: string; images?: string[]; error?: string }) => {
     setExecutionResult(result)
@@ -36,6 +42,22 @@ export default function TutorialLayout({
       setActiveTab('output')
     }
   }
+
+  const handleCodeChange = (code: string) => {
+    setCurrentCode(code)
+    onCodeChange?.(code)
+  }
+
+  // Effect to handle code from exercises
+  useEffect(() => {
+    if (codeFromExercise) {
+      setCurrentCode(codeFromExercise)
+      // Switch to code tab when exercise loads code
+      if (isMobile) {
+        setActiveTab('code')
+      }
+    }
+  }, [codeFromExercise, isMobile])
 
   // Handle responsive behavior
   useEffect(() => {
@@ -153,7 +175,8 @@ export default function TutorialLayout({
               {activeTab === 'code' && (
                 <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full">
                   <CodeEditor
-                    defaultCode={defaultCode}
+                    defaultCode={currentCode}
+                    onCodeChange={handleCodeChange}
                     onExecute={handleCodeExecute}
                     className="h-full"
                   />
@@ -263,7 +286,8 @@ export default function TutorialLayout({
                 <Panel defaultSize={68} minSize={40} className="h-full">
                   <div className="bg-white rounded-lg shadow-sm border border-gray-200 h-full">
                     <CodeEditor
-                      defaultCode={defaultCode}
+                      defaultCode={currentCode}
+                      onCodeChange={handleCodeChange}
                       onExecute={handleCodeExecute}
                       className="h-full"
                     />
