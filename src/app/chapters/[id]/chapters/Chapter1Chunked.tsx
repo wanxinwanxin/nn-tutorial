@@ -62,10 +62,10 @@ export default function Chapter1Chunked({
         </div>
 
         {/* Chunk Content */}
-        {currentChunk === 0 && <Chunk1 onExerciseComplete={handleExerciseComplete} />}
-        {currentChunk === 1 && <Chunk2 onExerciseComplete={handleExerciseComplete} />}
-        {currentChunk === 2 && <Chunk3 onExerciseComplete={handleExerciseComplete} />}
-        {currentChunk === 3 && <Chunk4 onExerciseComplete={handleExerciseComplete} />}
+        {currentChunk === 0 && <Chunk1 onExerciseComplete={handleExerciseComplete} onLoadInEditor={onLoadInEditor} currentEditorCode={currentEditorCode} onCheckSolution={onCheckSolution} />}
+        {currentChunk === 1 && <Chunk2 onExerciseComplete={handleExerciseComplete} onLoadInEditor={onLoadInEditor} currentEditorCode={currentEditorCode} onCheckSolution={onCheckSolution} />}
+        {currentChunk === 2 && <Chunk3 onExerciseComplete={handleExerciseComplete} onLoadInEditor={onLoadInEditor} currentEditorCode={currentEditorCode} onCheckSolution={onCheckSolution} />}
+        {currentChunk === 3 && <Chunk4 onExerciseComplete={handleExerciseComplete} onLoadInEditor={onLoadInEditor} currentEditorCode={currentEditorCode} onCheckSolution={onCheckSolution} />}
       </div>
 
       {/* Floating Progress Tracker */}
@@ -79,7 +79,17 @@ export default function Chapter1Chunked({
 }
 
 // Chunk 1: What is a Neuron?
-function Chunk1({ onExerciseComplete }: { onExerciseComplete: (correct: boolean) => void }) {
+function Chunk1({ 
+  onExerciseComplete, 
+  onLoadInEditor, 
+  currentEditorCode, 
+  onCheckSolution 
+}: { 
+  onExerciseComplete: (correct: boolean) => void;
+  onLoadInEditor?: (code: string) => void;
+  currentEditorCode?: string;
+  onCheckSolution?: () => Promise<any>;
+}) {
   return (
     <div className="space-y-6">
       <div className="bg-blue-50 p-4 rounded-lg border-l-4 border-blue-400">
@@ -160,7 +170,17 @@ function Chunk1({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
 }
 
 // Chunk 2: Mathematical Foundation
-function Chunk2({ onExerciseComplete }: { onExerciseComplete: (correct: boolean) => void }) {
+function Chunk2({ 
+  onExerciseComplete, 
+  onLoadInEditor, 
+  currentEditorCode, 
+  onCheckSolution 
+}: { 
+  onExerciseComplete: (correct: boolean) => void;
+  onLoadInEditor?: (code: string) => void;
+  currentEditorCode?: string;
+  onCheckSolution?: () => Promise<any>;
+}) {
   return (
     <div className="space-y-6">
       <div className="bg-green-50 p-4 rounded-lg border-l-4 border-green-400">
@@ -247,7 +267,17 @@ print(f"Neuron output: {result}")`}
 }
 
 // Chunk 3: Weights & Biases Impact
-function Chunk3({ onExerciseComplete }: { onExerciseComplete: (correct: boolean) => void }) {
+function Chunk3({ 
+  onExerciseComplete, 
+  onLoadInEditor, 
+  currentEditorCode, 
+  onCheckSolution 
+}: { 
+  onExerciseComplete: (correct: boolean) => void;
+  onLoadInEditor?: (code: string) => void;
+  currentEditorCode?: string;
+  onCheckSolution?: () => Promise<any>;
+}) {
   const [weight, setWeight] = useState(1.0)
   const [bias, setBias] = useState(0.0)
   const [input, setInput] = useState(2.0)
@@ -370,7 +400,17 @@ function Chunk3({ onExerciseComplete }: { onExerciseComplete: (correct: boolean)
 }
 
 // Chunk 4: Real-World Applications
-function Chunk4({ onExerciseComplete }: { onExerciseComplete: (correct: boolean) => void }) {
+function Chunk4({ 
+  onExerciseComplete, 
+  onLoadInEditor, 
+  currentEditorCode, 
+  onCheckSolution 
+}: { 
+  onExerciseComplete: (correct: boolean) => void;
+  onLoadInEditor?: (code: string) => void;
+  currentEditorCode?: string;
+  onCheckSolution?: () => Promise<any>;
+}) {
   return (
     <div className="space-y-6">
       <div className="bg-orange-50 p-4 rounded-lg border-l-4 border-orange-400">
