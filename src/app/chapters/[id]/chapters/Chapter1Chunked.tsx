@@ -14,7 +14,7 @@ export default function Chapter1Chunked({
   onLoadInEditor,
   currentEditorCode,
   onCheckSolution
-}: Chapter1ChunkedProps = {}) {
+}: Chapter1ChunkedProps) {
   const [currentChunk, setCurrentChunk] = useState(0)
   const [chunkProgress, setChunkProgress] = useState([
     { id: 'chunk1', title: 'What is a Neuron?', completed: false },
