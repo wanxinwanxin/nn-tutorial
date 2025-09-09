@@ -238,6 +238,9 @@ print(f"Neuron output: {result}")`}
         solution="weight * input_val + bias"
         hint="Remember the neuron equation: y = w × x + b, where w is weight, x is input_val, and b is bias"
         onComplete={onExerciseComplete}
+        onLoadInEditor={onLoadInEditor}
+        currentEditorCode={currentEditorCode}
+        onCheckSolution={onCheckSolution}
       />
     </div>
   )
@@ -501,6 +504,9 @@ print(f"Multi-input neuron output: {result}")`}
         solution="inputs[i] * weights[i]"
         hint="For each input, multiply it by its corresponding weight: inputs[i] * weights[i]"
         onComplete={onExerciseComplete}
+        onLoadInEditor={onLoadInEditor}
+        currentEditorCode={currentEditorCode}
+        onCheckSolution={onCheckSolution}
       />
     </div>
   )
