@@ -1,4 +1,26 @@
+'use client'
+
+import { useState } from 'react'
+import { QuizComponent } from '../../../../components/Interactive'
+
 export default function Chapter4() {
+  const [quizProgress, setQuizProgress] = useState([
+    { id: 'architecture', completed: false }
+  ])
+
+  const handleQuizComplete = (quizId: string, correct: boolean) => {
+    if (correct) {
+      setQuizProgress(prev =>
+        prev.map(quiz =>
+          quiz.id === quizId ? { ...quiz, completed: true } : quiz
+        )
+      )
+    }
+  }
+
+  const completedQuizzes = quizProgress.filter(q => q.completed).length
+  const totalQuizzes = quizProgress.length
+
   return (
     <div className="space-y-6">
       <div>
@@ -29,6 +51,18 @@ export default function Chapter4() {
             can approximate any continuous function.
           </p>
         </div>
+
+        <QuizComponent
+          question="Why can't a single perceptron solve the XOR problem, but a multi-layer network can?"
+          options={[
+            { id: 'a', text: 'Single perceptrons are too slow for complex problems', isCorrect: false },
+            { id: 'b', text: 'XOR requires a non-linear decision boundary that only hidden layers can create', isCorrect: true },
+            { id: 'c', text: 'Multi-layer networks have more parameters so they memorize better', isCorrect: false },
+            { id: 'd', text: 'Single perceptrons can only handle one input at a time', isCorrect: false }
+          ]}
+          explanation="Exactly! XOR data cannot be separated by a straight line - it needs a curved or multi-segment boundary. Hidden layers with activation functions create these non-linear transformations, allowing the network to bend and curve the decision boundary to solve non-linearly separable problems."
+          onComplete={(correct) => handleQuizComplete('architecture', correct)}
+        />
       </div>
 
       <div className="space-y-4">

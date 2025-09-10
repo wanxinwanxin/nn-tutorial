@@ -1,4 +1,28 @@
+'use client'
+
+import { useState } from 'react'
+import { QuizComponent } from '../../../../components/Interactive'
+
 export default function Chapter2() {
+  const [quizProgress, setQuizProgress] = useState([
+    { id: 'linearity', completed: false },
+    { id: 'functions', completed: false },
+    { id: 'selection', completed: false }
+  ])
+
+  const handleQuizComplete = (quizId: string, correct: boolean) => {
+    if (correct) {
+      setQuizProgress(prev =>
+        prev.map(quiz =>
+          quiz.id === quizId ? { ...quiz, completed: true } : quiz
+        )
+      )
+    }
+  }
+
+  const completedQuizzes = quizProgress.filter(q => q.completed).length
+  const totalQuizzes = quizProgress.length
+
   return (
     <div className="space-y-6">
       <div>
@@ -6,6 +30,21 @@ export default function Chapter2() {
         <p className="text-xl text-gray-600">
           Adding non-linearity to neural networks
         </p>
+        
+        {/* Progress Indicator */}
+        <div className="mt-4 bg-blue-50 p-4 rounded-lg border border-blue-200">
+          <div className="flex items-center gap-3">
+            <div className="text-blue-600">
+              🎯 Learning Progress: {completedQuizzes}/{totalQuizzes} concepts mastered
+            </div>
+            <div className="flex-1 bg-blue-200 rounded-full h-2">
+              <div 
+                className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${(completedQuizzes / totalQuizzes) * 100}%` }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -28,6 +67,18 @@ export default function Chapter2() {
             straight lines!
           </p>
         </div>
+
+        <QuizComponent
+          question="What would happen if you stacked multiple linear neurons (y = w×x + b) without activation functions?"
+          options={[
+            { id: 'a', text: 'The network would become more powerful and learn complex patterns', isCorrect: false },
+            { id: 'b', text: 'Each layer would add new non-linear capabilities to the network', isCorrect: false },
+            { id: 'c', text: 'The entire network would still be equivalent to a single linear function', isCorrect: true },
+            { id: 'd', text: 'The network would learn exponentially complex relationships', isCorrect: false }
+          ]}
+          explanation="Correct! Stacking linear functions still gives you a linear function. If f(x) = ax + b and g(x) = cx + d, then g(f(x)) = c(ax + b) + d = acx + (bc + d), which is still linear. This is why we need activation functions to introduce non-linearity."
+          onComplete={(correct) => handleQuizComplete('linearity', correct)}
+        />
       </div>
 
       <div className="space-y-4">
@@ -77,6 +128,18 @@ export default function Chapter2() {
             </p>
           </div>
         </div>
+
+        <QuizComponent
+          question="Which activation function would be BEST for a hidden layer in a deep neural network?"
+          options={[
+            { id: 'a', text: 'Sigmoid - because it gives probabilities between 0 and 1', isCorrect: false },
+            { id: 'b', text: 'ReLU - because it avoids vanishing gradients and is computationally efficient', isCorrect: true },
+            { id: 'c', text: 'Tanh - because it always gives the most accurate results', isCorrect: false },
+            { id: 'd', text: 'Linear function - because it preserves the original data', isCorrect: false }
+          ]}
+          explanation="Correct! ReLU is the most popular choice for hidden layers because: (1) it solves the vanishing gradient problem that affects Sigmoid and Tanh in deep networks, (2) it's computationally very fast (just max(0,x)), and (3) it helps networks train faster and often achieve better performance."
+          onComplete={(correct) => handleQuizComplete('functions', correct)}
+        />
       </div>
 
       <div className="space-y-4">
@@ -138,6 +201,18 @@ export default function Chapter2() {
             </ul>
           </div>
         </div>
+
+        <QuizComponent
+          question="You're building a binary classifier to detect spam emails. For the OUTPUT layer, which activation function should you choose?"
+          options={[
+            { id: 'a', text: 'ReLU - because it\'s the most popular and fastest', isCorrect: false },
+            { id: 'b', text: 'Tanh - because it gives zero-centered outputs', isCorrect: false },
+            { id: 'c', text: 'Sigmoid - because it outputs probabilities between 0 and 1', isCorrect: true },
+            { id: 'd', text: 'Linear - because we want the raw prediction values', isCorrect: false }
+          ]}
+          explanation="Perfect! For binary classification, Sigmoid is ideal for the output layer because it squashes any real number to a probability between 0 and 1. You can interpret the output as: >0.5 = spam, <0.5 = not spam. ReLU would be great for hidden layers, but not for probabilistic output."
+          onComplete={(correct) => handleQuizComplete('selection', correct)}
+        />
       </div>
 
       <div className="space-y-4">

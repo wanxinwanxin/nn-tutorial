@@ -1,4 +1,28 @@
+'use client'
+
+import { useState } from 'react'
+import { QuizComponent } from '../../../../components/Interactive'
+
 export default function Chapter3() {
+  const [quizProgress, setQuizProgress] = useState([
+    { id: 'concept', completed: false },
+    { id: 'learning', completed: false },
+    { id: 'algorithm', completed: false }
+  ])
+
+  const handleQuizComplete = (quizId: string, correct: boolean) => {
+    if (correct) {
+      setQuizProgress(prev =>
+        prev.map(quiz =>
+          quiz.id === quizId ? { ...quiz, completed: true } : quiz
+        )
+      )
+    }
+  }
+
+  const completedQuizzes = quizProgress.filter(q => q.completed).length
+  const totalQuizzes = quizProgress.length
+
   return (
     <div className="space-y-6">
       <div>
@@ -6,6 +30,21 @@ export default function Chapter3() {
         <p className="text-xl text-gray-600">
           Our first learning neural network for binary classification
         </p>
+        
+        {/* Progress Indicator */}
+        <div className="mt-4 bg-green-50 p-4 rounded-lg border border-green-200">
+          <div className="flex items-center gap-3">
+            <div className="text-green-600">
+              🎯 Learning Progress: {completedQuizzes}/{totalQuizzes} concepts mastered
+            </div>
+            <div className="flex-1 bg-green-200 rounded-full h-2">
+              <div 
+                className="bg-green-600 h-2 rounded-full transition-all duration-300"
+                style={{ width: `${(completedQuizzes / totalQuizzes) * 100}%` }}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="space-y-4">
@@ -29,6 +68,18 @@ export default function Chapter3() {
             &quot;this is a cat&quot; and &quot;this is a dog&quot;, and it figures out the pattern to classify new animals!
           </p>
         </div>
+
+        <QuizComponent
+          question="What makes the perceptron different from the simple neurons we learned about in Chapter 1?"
+          options={[
+            { id: 'a', text: 'It uses more complex mathematical equations', isCorrect: false },
+            { id: 'b', text: 'It can automatically adjust its weights to learn from data', isCorrect: true },
+            { id: 'c', text: 'It processes multiple inputs simultaneously', isCorrect: false },
+            { id: 'd', text: 'It always produces more accurate results', isCorrect: false }
+          ]}
+          explanation="Exactly! The key innovation of the perceptron is learning. While Chapter 1's neurons had fixed weights that we set manually, the perceptron can adjust its own weights based on training examples. This automatic learning from mistakes is what made it the first 'intelligent' neural network."
+          onComplete={(correct) => handleQuizComplete('concept', correct)}
+        />
       </div>
 
       <div className="space-y-4">
@@ -92,6 +143,18 @@ export default function Chapter3() {
             </p>
           </div>
         </div>
+
+        <QuizComponent
+          question="A perceptron is classifying emails as spam (1) or not spam (0). If the calculation w₁×x₁ + w₂×x₂ + bias = -2.5, what will the perceptron output?"
+          options={[
+            { id: 'a', text: '1 (spam) - because the calculation is negative', isCorrect: false },
+            { id: 'b', text: '0 (not spam) - because the result is less than 0', isCorrect: true },
+            { id: 'c', text: '-2.5 - the perceptron outputs the raw calculation', isCorrect: false },
+            { id: 'd', text: '0.5 - because it applies a sigmoid function', isCorrect: false }
+          ]}
+          explanation="Perfect! The perceptron uses a step function: if the weighted sum is ≥ 0, output 1; if < 0, output 0. Since -2.5 < 0, the perceptron classifies this email as 0 (not spam). The step function creates a hard decision boundary, unlike sigmoid which gives probabilities."
+          onComplete={(correct) => handleQuizComplete('learning', correct)}
+        />
       </div>
 
       <div className="space-y-4">
@@ -132,6 +195,18 @@ export default function Chapter3() {
             </p>
           </div>
         </div>
+
+        <QuizComponent
+          question="A perceptron predicts 1, but the correct answer is 0. The input was x = [2, -1]. What happens to the weights during learning?"
+          options={[
+            { id: 'a', text: 'Weights increase because the prediction was wrong', isCorrect: false },
+            { id: 'b', text: 'Weights decrease according to: w = w + η × (0-1) × [2,-1] = w - η × [2,-1]', isCorrect: true },
+            { id: 'c', text: 'Nothing happens because the prediction was close enough', isCorrect: false },
+            { id: 'd', text: 'The bias changes but weights stay the same', isCorrect: false }
+          ]}
+          explanation="Excellent! The perceptron learning rule is: w = w + η × (target - prediction) × input. Here: w = w + η × (0-1) × [2,-1] = w + η × (-1) × [2,-1] = w - η × [2,-1]. So the first weight decreases by η×2, and the second weight increases by η×1 (since -(-1) = +1)."
+          onComplete={(correct) => handleQuizComplete('algorithm', correct)}
+        />
       </div>
 
       <div className="space-y-4">
